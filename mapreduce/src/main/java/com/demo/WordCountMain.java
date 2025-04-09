@@ -39,6 +39,8 @@ public class WordCountMain {
         //设置文件的输出
         Path outPath = new Path(args[1]);
         TextOutputFormat.setOutputPath(job,outPath);
+        //设置计算程序Jar包所在位置,客户端会自动上传JAR包到HDFS上
+        job.setJar("XXXX/XXXX/xxx.jar");
         //提交任务
         job. waitForCompletion(true);
     }
