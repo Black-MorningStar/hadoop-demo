@@ -18,7 +18,7 @@ public class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
     private IntWritable one = new IntWritable(1);
 
     /**
-     * @param key 由于使用的TextInputFormat作为输入,该类会把文本文件按行切割成一条条记录调用Map方法。key是每行文本在文件中的数据偏移量。
+     * @param key 由于使用的TextInputFormat作为输入,该类会把文本文件按行切割成一条条记录调用Map方法。key是每行文本在文件中的起始数据偏移量位置。
      * @param value 被切割的一条条文本内容。
      * @param context
      * @throws IOException
