@@ -1,4 +1,4 @@
-package com.demo;
+package com.demo.topn;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Partitioner;

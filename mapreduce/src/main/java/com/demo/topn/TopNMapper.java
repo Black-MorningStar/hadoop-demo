@@ -1,11 +1,10 @@
-package com.demo;
+package com.demo.topn;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 /**
  * Map处理程序

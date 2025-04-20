@@ -1,4 +1,4 @@
-package com.demo;
+package com.demo.topn;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,17 +26,13 @@ public class TopNKey implements WritableComparable<TopNKey> {
     //自定义key排序规则
     @Override
     public int compareTo(TopNKey that) {
-        //按照年月日正序排
+        //按照年月正序排
         int c1 = Integer.compare(this.year, that.year);
         if (c1 == 0) {
             int c2 = Integer.compare(this.month, that.month);
             if (c2 == 0) {
-                int c3 = Integer.compare(this.day, that.day);
-                if (c3 == 0) {
-                    //如果年月日相同，则根据温度倒序排
-                    return -Integer.compare(this.temperature,that.temperature);
-                }
-                return c3;
+                //如果年月相同，则根据温度倒序排
+                return -Integer.compare(this.temperature,that.temperature);
             }
             return c2;
         }
