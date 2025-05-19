@@ -21,7 +21,7 @@ public class WordCountMain {
         //读取本地的yarn、mapred配置文件
         Configuration configuration = new Configuration(true);
         //设置ReduceTask的数量 (并行度)
-        configuration.set(MRJobConfig.NUM_REDUCES,"2");
+        configuration.set(MRJobConfig.NUM_REDUCES,"1");
         //根据配置实例化一个Job对象
         Job job = Job.getInstance(configuration,"myWordCountJob");
         //设置Job的执行主类
