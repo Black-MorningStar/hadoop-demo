@@ -31,6 +31,13 @@
             <version>3.1.3</version>  <!-- 替换为你的 Hadoop 版本 -->
             <scope>provided</scope>
         </dependency>
+        <!--hadoop依赖-->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>3.3.6</version> <!-- 根据你的 Hadoop 版本调整 -->
+        </dependency>
+
 
     </dependencies>
 
