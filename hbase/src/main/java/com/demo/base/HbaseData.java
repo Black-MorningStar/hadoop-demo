@@ -1,4 +1,4 @@
-package com.demo;
+package com.demo.base;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,14 +7,16 @@ import java.util.List;
 
 @Getter
 @Setter
-public class HbaseQuery {
+public class HbaseData {
 
     private byte[] rowKey;
-    private List<QueryDetail> details;
+    private List<HbaseDataDetail> data;
+
     @Getter
     @Setter
-    public static class QueryDetail {
+    public static class HbaseDataDetail {
         private byte[] columnFamily;
         private byte[] columnName;
+        private byte[] columnValue;
     }
 }

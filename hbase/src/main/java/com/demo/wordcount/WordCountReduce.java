@@ -1,4 +1,4 @@
-package com.demo;
+package com.demo.wordcount;
 
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
