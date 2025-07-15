@@ -1,6 +1,8 @@
 package com.demo.base;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
@@ -181,6 +183,47 @@ public class HbaseClient {
                 result.add(response);
             });
             return result;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            //每次使用完毕需要关闭连接
+            if (table != null) {
+                try {
+                    table.close();
+                } catch (Exception e) {
+                    System.out.println("关闭table连接失败" + e.toString());
+                }
+            }
+        }
+        return null;
+    }
+
+    public static List<HbaseData> getAllData(String tableName) {
+        Table table = null;
+        ArrayList<HbaseData> list = new ArrayList<>();
+        try {
+            table = connection.getTable(TableName.valueOf(tableName));
+            Scan scan = new Scan();
+            ResultScanner scanner = table.getScanner(scan);
+            for (Result result : scanner) {
+                String rowKey = Bytes.toString(result.getRow());
+                HbaseData hbaseData = new HbaseData();
+                hbaseData.setRowKey(result.getRow());
+                ArrayList<HbaseData.HbaseDataDetail> detail = new ArrayList<>();
+                for (Cell cell : result.listCells()) {
+                    String family = Bytes.toString(CellUtil.cloneFamily(cell));
+                    String qualifier = Bytes.toString(CellUtil.cloneQualifier(cell));
+                    String value = Bytes.toString(CellUtil.cloneValue(cell));
+                    HbaseData.HbaseDataDetail hbaseDataDetail = new HbaseData.HbaseDataDetail();
+                    hbaseDataDetail.setColumnFamily(CellUtil.cloneFamily(cell));
+                    hbaseDataDetail.setColumnName(CellUtil.cloneQualifier(cell));
+                    hbaseDataDetail.setColumnValue(CellUtil.cloneValue(cell));
+                    detail.add(hbaseDataDetail);
+                }
+                hbaseData.setData(detail);
+                list.add(hbaseData);
+            }
+            return list;
         } catch (Exception e) {
             System.out.println(e.toString());
         } finally {

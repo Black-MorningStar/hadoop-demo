@@ -3,14 +3,13 @@ package com.demo.etllog;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 import java.util.UUID;
 
-public class AnaLogMapper extends Mapper<Object, Text, ImmutableBytesWritable, Put> {
+public class EtlLogMapper extends Mapper<Object, Text, ImmutableBytesWritable, Put> {
 
 
     @Override
@@ -24,8 +23,16 @@ public class AnaLogMapper extends Mapper<Object, Text, ImmutableBytesWritable, P
         String requestHost = split[2];
         String[] urlSplit = split[3].split("\\?");
         String url = urlSplit[0];
-        String[] split2 = urlSplit[1].split("=");
-        String param = split2[1];
+        String[] paramSplit = urlSplit[1].split("&");
+        String nameParam = paramSplit[0];
+        String[] nameParamSplit = nameParam.split("=");
+        String nameVal = nameParamSplit[1];
+        String platParam = paramSplit[1];
+        String[] platParamSplit = platParam.split("=");
+        String platVal = platParamSplit[1];
+        String timeParam = paramSplit[2];
+        String[] timeParamSplit = timeParam.split("=");
+        String timeVal = timeParamSplit[1];
         //写入hbase
         String rowKey = UUID.randomUUID().toString();
         Put put = new Put(Bytes.toBytes(rowKey));
@@ -33,7 +40,9 @@ public class AnaLogMapper extends Mapper<Object, Text, ImmutableBytesWritable, P
         put.addColumn(Bytes.toBytes("request"), Bytes.toBytes("requestTime"), Bytes.toBytes(String.valueOf(longTime)));
         put.addColumn(Bytes.toBytes("request"), Bytes.toBytes("requestHost"), Bytes.toBytes(requestHost));
         put.addColumn(Bytes.toBytes("request"), Bytes.toBytes("requestUrl"), Bytes.toBytes(url));
-        put.addColumn(Bytes.toBytes("param"), Bytes.toBytes("name"), Bytes.toBytes(param));
+        put.addColumn(Bytes.toBytes("param"), Bytes.toBytes("name"), Bytes.toBytes(nameVal));
+        put.addColumn(Bytes.toBytes("param"), Bytes.toBytes("plat"), Bytes.toBytes(platVal));
+        put.addColumn(Bytes.toBytes("param"), Bytes.toBytes("time"), Bytes.toBytes(timeVal));
         context.write(new ImmutableBytesWritable(Bytes.toBytes(rowKey)), put);
     }
 }

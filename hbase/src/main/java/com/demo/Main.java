@@ -1,12 +1,30 @@
 package com.demo;
 
 import com.demo.base.HbaseClient;
+import com.demo.base.HbaseData;
 import com.google.common.collect.Lists;
+import org.apache.hadoop.hbase.CellUtil;
+import org.apache.hadoop.hbase.util.Bytes;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         //创建一张表
-        HbaseClient.createTable("wordcount", Lists.newArrayList("cf"));
+         //HbaseClient.createTable("requestlog", Lists.newArrayList("request","param"));
+        List<HbaseData> requestlog = HbaseClient.getAllData("requestlog");
+        for (HbaseData result : requestlog) {
+            String rowKey = Bytes.toString(result.getRowKey());
+            List<HbaseData.HbaseDataDetail> data = result.getData();
+            System.out.println("RowKey：" + rowKey);
+            for (HbaseData.HbaseDataDetail cell : data) {
+                String family = Bytes.toString(cell.getColumnFamily());
+                String qualifier = Bytes.toString(cell.getColumnName());
+                String value = Bytes.toString(cell.getColumnValue());
+                System.out.println("family：" + family + " qualifier: " + qualifier + " value: " + value);
+            }
+            System.out.println("============");
+        }
         /*ArrayList<HbaseData> list = new ArrayList<>();
         HbaseData data1 = new HbaseData();
         data1.setRowKey(Bytes.toBytes("1000000001"));

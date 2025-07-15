@@ -18,40 +18,55 @@
 
 <configuration>
 
-  <!--配置SecondNameNode节点的所在位置-->
-<property>
+  <!--second namenode-->
+  <property>
     <name>dfs.namenode.secondary.http-address</name>
     <value>localhost:50090</value>
   </property>
-<!--由于SecondNameNode的作用就是帮助NameNode进行Fsimage文件和EditLogs文件的合并工作，因此也需要磁盘存放数据，这里配置SecondNameNode数据在磁盘中的存储位置-->
   <property>
         <name>dfs.namenode.checkpoint.dir</name>
-        <value>/Users/pengshaoxiang/Documents/learning/hadoop/hadoopHome/hdfs/secondary</value>
-  </property>
-  
-<!--配置NameNode Web页面的端口号-->
-<property>
+        <value>/Users/pengshaoxiang/Documents/hadoop/nameNode/hdfs/secondary</value>
+    </property>
+
+  <!--namenode-->
+  <property>
     <name>dfs.namenode.http-address</name>
     <value>localhost:50070</value>
   </property>
-<!--配置NameNode元数据存放在磁盘的位置-->
   <property>
         <name>dfs.namenode.name.dir</name>
-        <value>/Users/pengshaoxiang/Documents/learning/hadoop/hadoopHome/hdfs/namenode</value>
+        <value>/Users/pengshaoxiang/Documents/hadoop/nameNode/hdfs/namenode</value>
     </property>
+  <!--
     
-<!--配置DataNode数据块(Block)存放在磁盘的位置-->    
-    <property>
+  
+  -->
+
+ <!--datanode-->
+
+ <property>
         <name>dfs.datanode.data.dir</name>
-        <value>/Users/pengshaoxiang/Documents/learning/hadoop/hadoopHome/hdfs/datanode</value>
+        <value>/Users/pengshaoxiang/Documents/hadoop/nameNode/hdfs/datanode</value>
     </property>
-<!--配置DataNode Web页面的端口号  -->      
+  
+ 
+ <!--
+  <property>
+        <name>dfs.datanode.address</name>
+        <value>localhost:9822</value>
+    </property>
     <property>
         <name>dfs.datanode.http.address</name>
         <value>localhost:9823</value>
-    </property>    
+    </property>
+    <property>
+        <name>dfs.datanode.ipc.address</name>
+        <value>localhost:9824</value>
+    </property>
 
-  <!--Block块默认最小副本数-->
+  -->
+
+  <!--最小副本数-->
   <property>
     <name>dfs.replication</name>
     <value>1</value>
