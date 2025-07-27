@@ -92,15 +92,15 @@
                         <goals>
                             <goal>shade</goal>  <!-- 表示运行 shade 目标，也就是打包 -->
                         </goals>
-                        <configuration>
+                        <!--<configuration>
                             <transformers>
-                                <!-- Transformer 是资源合并器，这里指定了 manifest 合并方式 -->
+                                &lt;!&ndash; Transformer 是资源合并器，这里指定了 manifest 合并方式 &ndash;&gt;
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <!-- 设置入口类的全限定名（main 方法所在的类）-->
+                                    &lt;!&ndash; 设置入口类的全限定名（main 方法所在的类）&ndash;&gt;
                                     <mainClass>com.demo.analog.AnalyzeMain</mainClass>
                                 </transformer>
                             </transformers>
-                        </configuration>
+                        </configuration>-->
                     </execution>
                 </executions>
             </plugin>

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @Author: 君墨笑
@@ -31,12 +32,11 @@ public class AnalyzeKey implements WritableComparable<AnalyzeKey> {
 
     @Override
     public int compareTo(@NotNull AnalyzeKey o) {
-        if (this.name.contentEquals(o.name)
-                && this.time.contentEquals(o.time)) {
-            return 0;
-        }
-        return 1;
+        int cmp = this.name.compareTo(o.name);
+        if (cmp != 0) return cmp;
+        return this.time.compareTo(o.time);
     }
+
 
     @Override
     public void write(DataOutput dataOutput) throws IOException {
@@ -50,5 +50,19 @@ public class AnalyzeKey implements WritableComparable<AnalyzeKey> {
         name = dataInput.readUTF();
         time = dataInput.readUTF();
         type = dataInput.readUTF();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnalyzeKey that = (AnalyzeKey) o;
+        return Objects.equals(name, that.name) && Objects.equals(time, that.time);
+    }
+
+    //默认底层使用hash进行分区
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, time);
     }
 }
