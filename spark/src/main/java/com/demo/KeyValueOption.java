@@ -1,5 +1,6 @@
 package com.demo;
 
+import com.google.common.collect.Lists;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -32,8 +33,8 @@ public class KeyValueOption {
         JavaPairRDD<String, Integer> javaPairRDD3 = sc.parallelizePairs(Arrays.asList(new Tuple2<>("zhangsan", 24),
                 new Tuple2<>("zhangsan", 33), new Tuple2<>("wangwu", 16),new Tuple2<>("wangwu", 22)));
         //reduceByKey
-        /*JavaPairRDD<String, Integer> reduceByKey = javaPairRDD3.reduceByKey((v1, v2) -> v1 + v2);
-        reduceByKey.foreach(tuple -> System.out.println(tuple._1 + ": " + tuple._2));*/
+        JavaPairRDD<String, Integer> reduceByKey = javaPairRDD3.reduceByKey((v1, v2) -> v1 + v2);
+        reduceByKey.foreach(tuple -> System.out.println(tuple._1 + ": " + tuple._2));
 
         //groupByKey
         /*JavaPairRDD<String, Iterable<Integer>> groupedByKey = javaPairRDD3.groupByKey();
@@ -72,8 +73,27 @@ public class KeyValueOption {
             }
             System.out.println(builder.toString());
         });*/
-
         //combineByKey操作
+        //求平均数
+        JavaPairRDD<String, Integer> javaPairRDD4 = sc.parallelizePairs(Arrays.asList(new Tuple2<>("zhangsan", 18),
+                new Tuple2<>("zhangsan", 20), new Tuple2<>("zhangsan", 40),new Tuple2<>("sunqi", 82),
+                new Tuple2<>("sunqi", 13),new Tuple2<>("sunqi", 15)));
+
+        JavaPairRDD<String, ArrayList<Integer>> combinedByKey = javaPairRDD4.combineByKey(value -> Lists.newArrayList(value, 1),
+                (list, value) -> {
+                    list.set(0, list.get(0) + value);
+                    list.set(1, list.get(1) + 1);
+                    return list;
+                },
+                (list1, list2) -> {
+                    int sum = list1.get(0) + list2.get(1);
+                    int count = list1.get(1) + list2.get(1);
+                    return Lists.newArrayList(sum, count);
+                });
+        JavaPairRDD<String, Double> average = combinedByKey.mapValues(val -> {
+            return (double) val.get(0) / val.get(1);
+        });
+        average.collect().forEach(tuple -> System.out.println(tuple._1 + ": " + tuple._2));
 
         while (true) {
 
