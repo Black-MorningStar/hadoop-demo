@@ -1,6 +1,5 @@
-package com.demo;
+package com.demo.rdd;
 
-import com.google.common.collect.Lists;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;

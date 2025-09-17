@@ -1,12 +1,7 @@
-package com.demo;
+package com.demo.rdd;
 
-import com.google.common.collect.Lists;
 import org.apache.spark.SparkConf;
-import org.apache.spark.api.java.JavaPairRDD;
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-
-import java.util.Iterator;
 
 /**
  * 通用API操作，适用于单元素以及KV元素
