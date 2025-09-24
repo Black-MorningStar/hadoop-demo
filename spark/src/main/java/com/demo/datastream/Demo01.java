@@ -39,5 +39,9 @@ public class Demo01 {
         //这里的print方法是Action算子，会触发底层RDD真正生成一个Job，并开始走DAG分析划分成多个Stage，每个Stage拆分成多个Task，并提交给Executor执行。
         wordCount.print();
 
+        //启动程序开始微批流处理
+        streamingContext.start();
+        streamingContext.awaitTermination();
+
     }
 }
