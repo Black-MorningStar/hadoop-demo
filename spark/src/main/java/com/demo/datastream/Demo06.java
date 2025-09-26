@@ -51,6 +51,7 @@ public class Demo06 {
         //由于自动提交偏移量关闭，因此我们需要手动提交维护偏移量。必须保证数据只计算一次(不可以少计算、重复计算)
         //一般的方法是在Driver端等批处理JOB执行完毕后，将计算结果拉回到Drvier端进行计算结果输出，然后手动提交偏移量
         //必须要保证计算结果输出操作和提交偏移量时在同一个事务内，比如计算结果输出到Mysql。必须要保证计算结果持久化和偏移量提交是在同一个事务内。
+        //这种方法的优势是可以保证数据仅计算一次 (计算结果输出和偏移量的提交是原子性的)，缺点是需要在Driver端回收计算结果，如果数据量过大，对Driver的堆内存会有影响
         mapStream.foreachRDD(rdd -> {
             List<Tuple2<Integer, String>> collect = rdd.collect();
             collect.forEach(it -> System.out.println(it._1 + ": " + it._2));
