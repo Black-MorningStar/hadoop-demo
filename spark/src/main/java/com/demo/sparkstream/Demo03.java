@@ -1,4 +1,4 @@
-package com.demo.datastream;
+package com.demo.sparkstream;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 演示 DStream数据集转换成RDD的操作，并演示作用域在Drvier端的变量
+ * 演示作用域在Executor端的变量
  *
  * @Author: 君墨笑
- * @Date: 2025/9/18 11:16
+ * @Date: 2025/9/19 14:18
  */
-public class Demo02 {
+public class Demo03 {
 
     public static void main(String[] args) throws InterruptedException {
         // 创建SparkConf对象
@@ -46,20 +46,17 @@ public class Demo02 {
         //如果要对RDD进行action动作算子操作,需要使用foreachRDD函数。
         // 这里的foreachRDD方法也是在Driver端运行的，只是将DataStream对象转换成RDD对象
         wordCount.foreachRDD(rdd -> {
-            //这里的rdd.collect();是一个Action算子，会触发底层RDD真正生成一个Job，并开始走DAG分析划分成多个Stage，每个Stage拆分成多个Task，并提交给Executor执行。
-            //Executor计算完毕后，会将结果返回给Driver端
-            List<Tuple2<String, Integer>> list = rdd.collect();
-            //Driver端执行遍历打印，list.forEach这一段方法是在Driver端运行的
-            list.forEach(tuple -> System.out.println(tuple._1 + ": " + tuple._2));
-            //每执行一次微批都会计数一次
-            int driverCount = count.incrementAndGet();
-            System.out.println("======打印Driver端计数：" + driverCount + " =========");
+            //如果是下面这种对count的操作，则是在Executor端执行的。
+            JavaRDD<Tuple2<String, Integer>> map = rdd.map(value -> {
+                //这里对于count变量的操作是在RDD的闭包函数内操作的，RDD相关的闭包函数会在Executor端进行计算，
+                // 因此这里的count变量会在Drvier端下发给Executor的端时候copy打包一份发给Executor端。因此对于Driver端的count变量是不会有影响的
+                int executorCount = count.incrementAndGet();
+                System.out.println("======打印Executor端计数：" + executorCount + " =========");
+                return value;
+            });
+            List<Tuple2<String, Integer>> collect = map.collect();
+            collect.forEach(tuple -> System.out.println(tuple._1 + ": " + tuple._2));
         });
-
-        //上述每获取到一个微批数据集之后，都会打包成一个RDD，然后将RDD封装成DStream对象，并交给Driver端进行处理。
-        //所有对DStream对象定义计算逻辑操作都是在Driver端运行的，只有真正触发action算子，Drvier端才会开始DAG分析、拆分Stage、Task,
-        // 然后将关于DStream对象操作的闭包函数发给Executor端，在Executor端进行计算。
-
 
         //启动程序开始微批流处理
         streamingContext.start();

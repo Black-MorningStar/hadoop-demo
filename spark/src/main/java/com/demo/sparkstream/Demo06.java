@@ -1,11 +1,10 @@
-package com.demo.datastream;
+package com.demo.sparkstream;
 
 import com.google.common.collect.Lists;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.SparkConf;
 import org.apache.spark.streaming.Durations;
-import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaInputDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;

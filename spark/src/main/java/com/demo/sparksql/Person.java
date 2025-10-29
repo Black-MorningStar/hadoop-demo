@@ -1,4 +1,4 @@
-package com.demo.dataset;
+package com.demo.sparksql;
 
 /**
  * // 定义一个 JavaBean（必须有无参构造 & getter/setter）

@@ -1,9 +1,8 @@
-package com.demo.datastream;
+package com.demo.sparkstream;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.channels.SocketChannel;
 
 /**
  * @Author: 君墨笑

@@ -1,19 +1,19 @@
-package com.demo.dataset;
+package com.demo.sparksql;
 
 
-import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.*;
 import org.apache.spark.sql.catalog.Table;
-import org.apache.spark.sql.catalyst.plans.JoinType;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
+ * SparkSQL中的计算处理操作
+ *
  * @Author: 君墨笑
  * @Date: 2025/9/10 14:35
  */
-public class DataSetMain {
+public class SparkSqlCalculate {
 
     public static void main(String[] args) throws AnalysisException {
         SparkSession sparkSession = SparkSession.builder().appName("DataSetMain").master("local[*]").getOrCreate();
@@ -28,6 +28,7 @@ public class DataSetMain {
         //创建一个DataSet
         Dataset<Person> personDS = sparkSession.createDataset(peopleList, personEncoder);
 
+        //=====算子操作=====
         //过滤操作
         //Dataset<Person> filter = personDS.filter("age > 18").show();
 
@@ -62,14 +63,17 @@ public class DataSetMain {
         Dataset<Row> joinDS = personDS.join(hobbyDS, "name");
         joinDS.select("name","age","description").show();*/
 
+        //=====SQL操作=====
         //SQL操作，必须先要注册临时视图
         personDS.createTempView("person");
         String db = sparkSession.catalog().currentDatabase();
         System.out.println("======" + db + "======");
         Dataset<Table> tableDataset = sparkSession.catalog().listTables();
         tableDataset.show();
-
         Dataset<Row> sql = sparkSession.sql("select * from person order by id desc");
         sql.show();
+
+        //=====API式SQL操作=====
+        personDS.select("name","age").where("age > 18").show();
     }
 }

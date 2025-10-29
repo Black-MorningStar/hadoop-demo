@@ -1,4 +1,4 @@
-package com.demo.rdd;
+package com.demo.sparkcore;
 
 import com.google.common.collect.Lists;
 import org.apache.spark.SparkConf;

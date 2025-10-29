@@ -1,17 +1,13 @@
-package com.demo.datastream;
+package com.demo.sparkstream;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.streaming.Durations;
-import org.apache.spark.streaming.StreamingContext;
-import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import scala.Tuple2;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 演示DataStream 基本API操作

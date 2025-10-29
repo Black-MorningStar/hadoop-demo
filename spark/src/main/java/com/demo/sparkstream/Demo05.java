@@ -1,9 +1,7 @@
-package com.demo.datastream;
+package com.demo.sparkstream;
 
-import jdk.xml.internal.XMLSecurityManager;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.Optional;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.Function3;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.State;
@@ -15,7 +13,6 @@ import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import scala.Tuple2;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 演示有状态的计算

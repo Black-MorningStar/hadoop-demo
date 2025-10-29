@@ -1,12 +1,14 @@
-package com.demo.dataset;
+package com.demo.sparksql;
 
 import org.apache.spark.sql.SparkSession;
 
 /**
+ * SparkSQL和Hive元数据服务的集成
+ *
  * @Author: 君墨笑
  * @Date: 2025/9/15 15:49
  */
-public class SparkSqlHiveMain {
+public class SparkSqlHive {
 
     public static void main(String[] a) {
         SparkSession sparkSession = SparkSession.builder()
@@ -16,8 +18,8 @@ public class SparkSqlHiveMain {
                 .enableHiveSupport() //开启和Hive的集成
                 .getOrCreate();
 
-        /*sparkSession.catalog().listDatabases().show();
-        sparkSession.catalog().listTables().show();*/
-        sparkSession.sql("select * from log_info limit 10").show();
+        sparkSession.catalog().listDatabases().show();
+        sparkSession.catalog().listTables().show();
+        //sparkSession.sql("select * from log_info limit 10").show();
     }
 }

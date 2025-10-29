@@ -1,4 +1,4 @@
-package com.demo.dataset;
+package com.demo.sparksql;
 
 import lombok.Getter;
 import lombok.Setter;
